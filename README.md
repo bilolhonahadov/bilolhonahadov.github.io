@@ -1,0 +1,2 @@
+# bilolhonahadov.github.io
+Лабораторные
