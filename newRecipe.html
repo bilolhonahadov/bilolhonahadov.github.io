@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить Рецепт</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9e79f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff3d4;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+        }
+        .container input, .container textarea, .container select {
+            width: 365px;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .container button {
+            width: 365px;
+            padding: 10px;
+            background-color: #58d68d;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin:5px; 
+        }
+        .container button:hover {
+            background-color: #45b36b;
+            
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Добавить Рецепт</h2>
+    <form id="recipeForm">
+        <label for="name">Название:</label>
+        <input type="text" id="name" placeholder="Название рецепта" required>
+
+        <label for="type">Тип еды:</label>
+        <select id="type" required>
+            <option value="Плов">Плов</option>
+            <option value="Лепешки">Лепешки</option>
+            <option value="Ханум">Ханум</option>
+            <option value="Шашлык">Шашлык</option>
+            <option value="Лагман">Лагман</option>
+            <option value="Самса">Самса</option>
+            <option value="Шурпа">Шурпа</option>
+            <option value="Пельмени">Пельмени</option>
+        </select>
+
+        <label for="ingredients">Ингредиенты (через запятую):</label>
+        <input type="text" id="ingredients" placeholder="Ингредиенты" required>
+
+        <label for="recipe">Рецепт:</label>
+        <textarea id="recipe" rows="5" placeholder="Описание рецепта" required></textarea>
+
+        <button type="button" onclick="addRecipe()">Добавить</button>
+        <button onclick="goBack()">Назад</button>
+        <p class="error" id="errorField"></p>
+    </form>
+</div>
+
+<script>
+    function goBack() {
+    window.history.back();
+}
+    function addRecipe() {
+        const name = document.getElementById('name').value;
+        const type = document.getElementById('type').value;
+        const ingredients = document.getElementById('ingredients').value.split(',').map(ing => ing.trim());
+        const recipe = document.getElementById('recipe').value;
+        const errorField = document.getElementById('errorField');
+
+        // Проверка на пустые поля
+        if (!name || !type || !ingredients.length || !recipe) {
+            errorField.textContent = 'Пожалуйста, заполните все поля.';
+            return;
+        }
+
+        // Получаем существующие рецепты из LocalStorage
+        let recipes = JSON.parse(localStorage.getItem('recipes')) || [];
+        
+        // Создаем новый объект рецепта
+        const newRecipe = {
+            name,
+            type,
+            ingredients,
+            recipe
+        };
+
+        // Добавляем новый рецепт в LocalStorage
+        recipes.push(newRecipe);
+        localStorage.setItem('recipes', JSON.stringify(recipes));
+
+        // Очистка полей формы
+        document.getElementById('name').value = '';
+        document.getElementById('type').value = '';
+        document.getElementById('ingredients').value = '';
+        document.getElementById('recipe').value = '';
+
+        errorField.textContent = 'Рецепт успешно добавлен!';
+        
+        setTimeout(() => {
+            errorField.textContent = '';
+        }, 1500);
+    }
+</script>
+
+</body>
+</html>

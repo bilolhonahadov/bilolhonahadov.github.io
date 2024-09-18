@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кулинария</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9e79f;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .header {
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .search-bar {
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .search-bar input[type="text"] {
+            padding: 10px;
+            width: 200px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .search-bar button {
+            padding: 10px;
+            background-color: #58d68d;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+        }
+        .login {
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .add-recipe {
+            margin-bottom: 20px;
+        }
+        .add-recipe button {
+            padding: 5px 10px;
+            background-color: #f7dc6f;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .category {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .category button {
+            padding: 10px;
+            margin: 5px;
+            background-color: #fff3d4;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .section-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .section-buttons button {
+            padding: 10px;
+            margin: 5px;
+            background-color: #f7dc6f;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .dish {
+            margin-bottom: 20px;
+        }
+        .dish img {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+        .dish h2 {
+            margin: 10px 0;
+        }
+        #logoutButton{
+            margin: auto;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Кулинария</h1>
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Поиск">
+        <button onclick="search()">Найти</button>
+    </div>
+</div>
+<button onclick="logout()"  id="logoutButton">Выйти</button>
+
+<div class="login" id="loginLinks">
+    <a href="reg.html">Регистрация</a> /
+    <a href="login.html"> Вход</a>
+</div>
+
+<script>
+    // Функция для поиска и перенаправления
+    // Список допустимых типов блюд
+    const validTypes = ["Плов", "Лепешки", "Ханум", "Шашлык", "Лагман", "Самса", "Шурпа", "Пельмени"];
+
+    // Функция для поиска и перенаправления
+    function search() {
+        const searchInput = document.getElementById('searchInput').value.trim();
+        
+        // Проверяем, соответствует ли введенный текст одному из допустимых типов
+        if (validTypes.includes(searchInput)) {
+            // Перенаправляем на страницу с рецептами выбранного типа
+            window.location.href = `recipes.html?type=${encodeURIComponent(searchInput)}`;
+        } else {
+            // Перенаправляем на страницу с общими рецептами
+            window.location.href = 'recipes.html';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginLinks = document.getElementById('loginLinks');
+        const loggedIn = localStorage.getItem('loggedIn');
+
+        if (loggedIn === 'true') {
+            // Если пользователь вошел, скрываем элемент
+            loginLinks.style.display = 'none';
+        }
+    });
+    function checkLoginStatus() {
+    const loggedIn = localStorage.getItem('loggedIn');
+    const loginLinks = document.querySelectorAll('.login a');
+    const logoutButton = document.getElementById('logoutButton');
+
+    if (loggedIn === 'true') {
+        // Скрываем ссылки на регистрацию и вход
+        loginLinks.forEach(link => link.style.display = 'none');
+        
+        // Показываем кнопку выхода
+        if (logoutButton) {
+            logoutButton.style.display = 'block';
+        }
+    } else {
+        // Показываем ссылки на регистрацию и вход
+        loginLinks.forEach(link => link.style.display = 'inline');
+        
+        // Скрываем кнопку выхода
+        if (logoutButton) {
+            logoutButton.style.display = 'none';
+        }
+    }
+}
+
+// Проверка статуса входа при загрузке страницы
+document.addEventListener('DOMContentLoaded', checkLoginStatus);
+function logout() {
+    // Удаляем флаг успешного входа из localStorage
+    localStorage.removeItem('loggedIn');
+    
+    // Перенаправляем на страницу входа
+    window.location.href = 'login.html';}
+</script>
+<div class="add-recipe">
+    <a href="newRecipe.html"><button>Добавить рецепт +</button></a>
+</div>
+
+<div class="category">
+    <a href="recipes.html?type=Плов"><button>Плов</button></a>
+    <a href="recipes.html?type=Лепешки"><button>Лепешки</button></a>
+    <a href="recipes.html?type=Ханум"><button>Ханум</button></a>
+    <a href="recipes.html?type=Шашлык"><button>Шашлык</button></a>
+    <a href="recipes.html?type=Лагман"><button>Лагман</button></a>
+    <a href="recipes.html?type=Самса"><button>Самса</button></a>
+    <a href="recipes.html?type=Шурпа"><button>Шурпа</button></a>
+    <a href="recipes.html?type=Пельмени"><button >Пельмени</button></a>
+</div>
+
+<div class="section-buttons">
+    <button>Каналы</button>
+    <button>Видеорецепты</button>
+    <button>Статьи</button>
+</div>
+<div class="dish">
+    <h1>Из чего?</h1>
+</div>
+
+<div class="dish">
+    <h2>Баранина</h2>
+    <img src="images/allergiya-na-baraninu 1.png" alt="Баранина">
+</div>
+<div class="dish">
+    <h2>Говядина</h2>
+    <img src="images/sa2-16-1536x1024 1.png" alt="Баранина">
+</div>
+<div class="dish">
+    <h2>Курица</h2>
+    <img src="images/gde-i-kak-kupit-myaso-kuritsy-i-govyadiny-na-ozon1-1024x683 1.png" alt="Баранина">
+</div>
+
+</body>
+</html>

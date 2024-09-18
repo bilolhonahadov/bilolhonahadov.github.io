@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9e79f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff3d4;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+        }
+        .container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #58d68d;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .container button:hover {
+            background-color: #45b36b;
+        }
+        .logo {
+            margin-top: 20px;
+        }
+        .logo img {
+            width: 100px;
+        }
+        .plhol {
+            max-width: 270px;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Регистрация</h2>
+    <!-- Форма регистрации -->
+    <form id="registerForm">
+        <input type="text" id="fio" class="plhol" placeholder="ФИО" required>
+        <input type="tel" id="phone" class="plhol" placeholder="Номер телефона" required>
+        <input type="email" id="email" class="plhol" placeholder="Почта" required>
+        <input type="date" id="dob" class="plhol" placeholder="Дата рождения" required>
+        <input type="password" id="pass" class="plhol" placeholder="Пароль" required>
+        <input type="text" id="login" class="plhol" placeholder="Логин" required>
+        <button type="button" onclick="register()">Зарегистрироваться!</button>
+        <p class="error" id="registerError"></p>
+    </form>
+    
+    <div class="logo">
+        <img src="images/image 9.png" alt="Логотип">
+    </div>
+</div>
+
+<!-- Подключение файла auth.js -->
+<script src="auth.js"></script>
+</body>
+</html>

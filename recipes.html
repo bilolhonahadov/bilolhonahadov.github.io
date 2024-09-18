@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рецепты</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9e79f;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #58d68d;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45b36b;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .error {
+            color: red;
+        }
+        .dish-image {
+            margin-top: 10px;
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="dishList">
+    <!-- Кнопки будут сгенерированы здесь -->
+</div>
+
+<script src="recipe.js"></script>
+<script>
+    // Список допустимых типов блюд
+    const validTypes = ["Плов", "Лепешки", "Ханум", "Шашлык", "Лагман", "Самса", "Шурпа", "Пельмени"];
+    const dishImages = {"Пельмени": "images/image 3.png",
+        "Пельмени": "images/image 2.png",
+        "Пельмени": "images/image 4.png"
+    }
+    // Функция для получения параметров из URL
+    function getQueryParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            type: params.get('type')
+        };
+    }
+
+    // Функция для генерации кнопок
+function generateDishButtons() {
+    const { type } = getQueryParams();
+    const dishList = document.getElementById('dishList');
+    
+    // Проверяем, указан ли тип блюда и допустим ли он
+    if (!type || !validTypes.includes(type)) {
+        dishList.innerHTML = '<p class="error">Выбран некорректный тип блюда или тип не указан.</p>';
+        return;
+    }
+
+    // Получаем рецепты из LocalStorage
+    const storedRecipes = JSON.parse(localStorage.getItem('recipes')) || [];
+    
+    // Объединяем рецепты из массива и LocalStorage
+    const allRecipes = [...recipes, ...storedRecipes];
+    
+    // Фильтруем рецепты по типу
+    const filteredRecipes = allRecipes.filter(recipe => recipe.type === type);
+
+    if (filteredRecipes.length === 0) {
+        dishList.innerHTML = '<p class="error">Рецепты для выбранного типа не найдены.</p>';
+        return;
+    }
+
+    filteredRecipes.forEach(recipe => {
+        const button = document.createElement('button');
+        button.innerHTML = recipe.name;
+        button.onclick = function() {
+            window.location.href = `recipe.html?recipe=${encodeURIComponent(recipe.name)}`;
+        };
+        dishList.appendChild(button);
+    });
+
+    
+}
+
+// Вызов функции для генерации кнопок при загрузке страницы
+document.addEventListener('DOMContentLoaded', generateDishButtons);
+</script>
+
+</body>
+</html>
